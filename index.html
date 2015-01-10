@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Géolocalisation étape 1</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+	$(document).ready(function(){
+
+		$('#getgeo').click(function() {
+		  
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position){
+					
+					$.ajax({
+						method: 'POST',
+						url: 'proxy.php',
+						data: { geo :'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + 
+										position.coords.latitude + ',' + position.coords.longitude}
+						}).done(function(data) {
+							infos = $.parseJSON(data);
+							$('#coords').append(infos.results[3].formatted_address);
+						  });
+				   
+					
+				  });
+			}
+			else { 
+				$('#coords').text('Géolocalisation non supportée');
+			}
+		  
+		});  
+
+	});
+</script>
+
+</head>
+<body>
+
+<button id="getgeo">Obtenir les coordonnées</button>
+<p id="coords">Votre lieu: </p>
+
+</body>
+</html>
