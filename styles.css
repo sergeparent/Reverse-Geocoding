@@ -1,3 +1,6 @@
 body {
 	font: normal 1em tahoma;
 }
+#coords {
+	color: #CC0000;
+	}
